@@ -36,12 +36,10 @@ class MapViewController: UIViewController, UISearchBarDelegate{
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var goButton: UIBarButtonItem!
     var selectedPin:MKPlacemark! = nil
-    //var listAnnotation = [MapAnnotation]()
 
-    //var mapView: MKMapView!
     let locationManager = CLLocationManager()
     var resultSearchController:UISearchController? = nil
-    var directionsArray: [MKDirections] = []
+    var directionsOverlay: [MKOverlay] = []
 
     override func loadView() {
         mapView = MKMapView()
@@ -163,15 +161,16 @@ class MapViewController: UIViewController, UISearchBarDelegate{
         }
         let request = createDirectionsRequest(from: location)
         let directions = MKDirections(request: request)
-       //resetMapView(withNew: directions)
+        //resetMapView(with: directionsArray)
+        resetMapView(with: directionsOverlay)
         
         directions.calculate { [unowned self] (responde, error) in
             //TODO: Handle error if needed
             guard let responde = responde else { return }
             
             for route in responde.routes {
-                print(route.distance)
                 self.mapView.addOverlay(route.polyline)
+                self.directionsOverlay.append(route.polyline)
                 self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
             }
         }
@@ -193,7 +192,7 @@ class MapViewController: UIViewController, UISearchBarDelegate{
         let request = MKDirections.Request()
         
         request.source = MKMapItem(placemark: startingLocation)
-        request.transportType = .automobile
+        request.transportType = .any
         request.destination = MKMapItem(placemark: destination)
         request.requestsAlternateRoutes = true
         
@@ -206,6 +205,13 @@ class MapViewController: UIViewController, UISearchBarDelegate{
 //        directionsArray.append(directions)
 //        directionsArray.map { $0.cancel()}
 //    }
+    
+    func resetMapView(with directions: [MKOverlay]) {
+        for item in directions {
+            mapView.removeOverlay(item)
+        }
+        return
+    }
     
     @IBAction func goButtonTapped(_ sender: UIBarButtonItem) {
         getDirections()
@@ -229,11 +235,6 @@ extension MapViewController: HandleMapSearch {
         selectedPin = placemark
         // clear existing pins
         mapView.removeAnnotations(mapView.annotations)
-//        let annotation = MKAnnotation()
-//        if let city = placemark.locality,
-//            let state = placemark.administrativeArea {
-//            annotation.subtitle = "\(city) \(state)"
-//        }
 
         let annotation = MapAnnotation(coordinate: placemark.coordinate, title: placemark.name, subtitle: placemark.locality)
         if let city = placemark.locality,
@@ -243,7 +244,6 @@ extension MapViewController: HandleMapSearch {
         let finalAnnotation = MapAnnotation(coordinate: annotation.coordinate, title: annotation.title, subtitle: annotation.subtitle)
         mapView.addAnnotation(finalAnnotation)
         
-        //listAnnotation.append(finalAnnotation)
         let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
         let region = MKCoordinateRegion(center: placemark.coordinate, span: span)
         mapView.setRegion(region, animated: true)
