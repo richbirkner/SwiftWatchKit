@@ -69,22 +69,33 @@ class MapViewController: UIViewController, UISearchBarDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         checkLocationServices()
+        createLocationTable()
+        mapView.delegate = self
+        
+        print("MapViewController loaded its view")
+
+    }
+    
+    func createLocationTable() {
+        
         let locationSearchTable = storyboard!.instantiateViewController(withIdentifier: "LocationSearchTable") as! LocationSearchTable
         resultSearchController = UISearchController(searchResultsController: locationSearchTable)
         resultSearchController?.searchResultsUpdater = locationSearchTable
+        
         let searchBar = resultSearchController!.searchBar
         searchBar.sizeToFit()
         searchBar.placeholder = "Search for places"
+        
         navigationItem.titleView = resultSearchController?.searchBar
         resultSearchController?.hidesNavigationBarDuringPresentation = false
         resultSearchController?.dimsBackgroundDuringPresentation = true
+        
         definesPresentationContext = true
         locationSearchTable.mapView = mapView
-        locationSearchTable.handleMapSearchDelegate = self as? HandleMapSearch
-        mapView.delegate = self
-        print("MapViewController loaded its view")
-
+        locationSearchTable.handleMapSearchDelegate = self
+        
     }
 
     
@@ -119,27 +130,29 @@ class MapViewController: UIViewController, UISearchBarDelegate{
     func checkLocationAuthoritation() {
         
         switch CLLocationManager.authorizationStatus(){
-        case .authorizedWhenInUse:
-            //Creating the Location Button
-            let buttonItem = MKUserTrackingButton(mapView: mapView)
-            let screenSize = UIScreen.main.bounds
-            buttonItem.frame = CGRect(origin: CGPoint(x: Int(screenSize.width - 50), y: 100), size: CGSize(width: 35, height: 35))
-            view.addSubview(buttonItem)
-            break
-        case .denied:
-            //Request the location
-            locationManager.requestWhenInUseAuthorization()
-            checkLocationAuthoritation()
-            break
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-            //checkLocationAuthoritation()
-            break
-        case .restricted:
-            // Show an alert letting them know what's up
-            break
-        case .authorizedAlways:
-            break
+            case .authorizedWhenInUse:
+                //Creating the Location Button
+                let buttonItem = MKUserTrackingButton(mapView: mapView)
+                let screenSize = UIScreen.main.bounds
+                buttonItem.frame = CGRect(origin: CGPoint(x: Int(screenSize.width - 50), y: 100), size: CGSize(width: 35, height: 35))
+                view.addSubview(buttonItem)
+                break
+            case .denied:
+                //Request the location
+                locationManager.requestWhenInUseAuthorization()
+                checkLocationAuthoritation()
+                break
+            case .notDetermined:
+                locationManager.requestWhenInUseAuthorization()
+                //checkLocationAuthoritation()
+                break
+            case .restricted:
+                // Show an alert letting them know what's up
+                break
+            case .authorizedAlways:
+                break
+        @unknown default:
+            print("Fatal Error")
         }
     }
     
