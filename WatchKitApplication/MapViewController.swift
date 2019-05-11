@@ -31,6 +31,23 @@ final class MapAnnotation: NSObject, MKAnnotation {
     }
 }
 
+class DirectionItem: NSObject {
+    
+    var start: String
+    var destination: String
+    //var transport: UIImage
+    var duration: DateComponents
+    
+    init(start: String, destination: String, duration: DateComponents){
+        self.start = start
+        self.destination = destination
+        //self.transport = transport
+        self.duration = DateComponents()
+        
+        super.init()
+    }
+}
+
 class MapViewController: UIViewController, UISearchBarDelegate{
     
     @IBOutlet var mapView: MKMapView!
@@ -196,15 +213,16 @@ class MapViewController: UIViewController, UISearchBarDelegate{
         request.destination = MKMapItem(placemark: destination)
         request.requestsAlternateRoutes = true
         
+        
+        let directionItem = DirectionItem(start: "Nordrach ", destination: "Stuttgart", duration: DateComponents(hour: 2, minute: 0, second: 0))
+        
+        
+        
         return request
         
     }
     
-//    func resetMapView(withNew directions: MKDirections) {
-//        mapView.removeOverlay(mapView?.overlays as! MKOverlay)
-//        directionsArray.append(directions)
-//        directionsArray.map { $0.cancel()}
-//    }
+    
     
     func resetMapView(with directions: [MKOverlay]) {
         for item in directions {

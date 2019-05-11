@@ -24,6 +24,7 @@
 		8F1031B722817E20002115A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F1031B622817E20002115A4 /* Assets.xcassets */; };
 		8F1031CE22818352002115A4 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1031CD22818352002115A4 /* MapViewController.swift */; };
 		8FCA226A2281DC34005F65CC /* LocationSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCA22692281DC34005F65CC /* LocationSearchTable.swift */; };
+		8FF1AF6A2286254300CC0840 /* DirectionItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF1AF692286254300CC0840 /* DirectionItems.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +110,7 @@
 		8F1031B922817E20002115A4 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		8F1031CD22818352002115A4 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		8FCA22692281DC34005F65CC /* LocationSearchTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchTable.swift; sourceTree = "<group>"; };
+		8FF1AF692286254300CC0840 /* DirectionItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionItems.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +221,7 @@
 				8F1031B622817E20002115A4 /* Assets.xcassets */,
 				8F1031B822817E20002115A4 /* Info.plist */,
 				8F1031B922817E20002115A4 /* PushNotificationPayload.apns */,
+				8FF1AF692286254300CC0840 /* DirectionItems.swift */,
 			);
 			path = "WatchKitApplication WatchKit Extension";
 			sourceTree = "<group>";
@@ -444,6 +447,7 @@
 			files = (
 				8F1031B522817E1F002115A4 /* NotificationController.swift in Sources */,
 				8F1031B322817E1F002115A4 /* ExtensionDelegate.swift in Sources */,
+				8FF1AF6A2286254300CC0840 /* DirectionItems.swift in Sources */,
 				8F1031B122817E1F002115A4 /* InterfaceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
